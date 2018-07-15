@@ -74,5 +74,6 @@ public class Charger : MonoBehaviour {
     {
         bar.color = Color.white;
         bar.fillAmount = 0;
+        keyDown = false;
     }
 }
