@@ -12,9 +12,10 @@ public class RoundManager : MonoBehaviour
     private Enemy _circle3;
     private Enemy _circle4;
     private float _lastRandomTime;
+    private float _startTime;
 
     public GameObject _gameOverText;
-
+    public Text _timerText;
     
     public List<Enemy> _inactiveEnemies = new List<Enemy>(); // easier to randomly pull, not a big deal since not that many elements
     private List<Enemy> _activeEnemies = new List<Enemy>();
@@ -29,6 +30,7 @@ public class RoundManager : MonoBehaviour
     {
         roundActive = true;
         _lastRandomTime = Time.time + .5f; // wait a little bit at start to give some breathing room
+        _startTime = Time.time;
     }
 	
     void RandomEnable()
@@ -97,6 +99,8 @@ public class RoundManager : MonoBehaviour
                 _activeEnemies.Remove(enemy);
                 _inactiveEnemies.Add(enemy);
             }
+
+            _timerText.text = (int) (Time.time - _startTime) + "s";
         }
 
         else
@@ -121,6 +125,7 @@ public class RoundManager : MonoBehaviour
                 }
 
                 _lastRandomTime = Time.time + 0.5f;
+                _startTime = Time.time;
             }
         }
 
