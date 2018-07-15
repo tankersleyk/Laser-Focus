@@ -78,7 +78,7 @@ public class RoundManager : MonoBehaviour
 
             foreach (Enemy enemy in _activeEnemies)
             {
-                ActiveType result = enemy.HandleClick();
+                ActiveType result = enemy.ProcessInput();
 
                 if (result == ActiveType.GameOver)
                 {

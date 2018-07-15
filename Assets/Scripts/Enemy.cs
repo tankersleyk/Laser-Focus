@@ -14,6 +14,17 @@ public class Enemy : MonoBehaviour
     private ActiveType _state;
     private float _activeTime;
     private int _level;
+    private int _chargeLevel; // TODO: Change this var name, too confusing with _level
+
+    private static Dictionary<int, Color> _colorTabel = new Dictionary<int, Color>
+    {
+        {1, Color.red},
+        {2, Color.blue},
+        {3, Color.yellow},
+        {4, Color.green}
+    };
+
+    public Charger _charger;
 
     // For drawing levels
     private static Texture2D _RectTexture;
@@ -46,7 +57,8 @@ public class Enemy : MonoBehaviour
         _state = ActiveType.Aggressive;
         _activeTime = Time.time;
         _level = level;
-        GetComponent<Image>().color = Color.red;
+        _chargeLevel = Random.Range(1, 4);
+        GetComponent<Image>().color = _colorTabel[_chargeLevel];
     }
 
     /// <summary>
@@ -63,24 +75,39 @@ public class Enemy : MonoBehaviour
     ///  Handles updates including keypresses and time management for game over/resetting to inactive
     /// </summary>
     /// <returns> the state of this enemy after the update has effected </returns>
-    public ActiveType HandleClick()
+    public ActiveType ProcessInput()
     {
-        if (Input.GetKeyDown(activateKey))
+        float chargeAmount = _charger.Charge();
+
+        if (_state == ActiveType.Aggressive)
         {
-            if (_state == ActiveType.Aggressive)
+            if (chargeAmount >= 0.25f * _chargeLevel)
             {
                 _level -= 1;
+
+                // TODO: rethink this, possible to abuse?
+                // Give only what is possible for player to handle in time 
+                // 2.8 instead of 3 so that player has 0.2s at least to react
+                int maxChargeLevel = (int) System.Math.Min((2.8f - (Time.time - _activeTime)) / 0.5f, 4f); 
+                _chargeLevel = Random.Range(1, maxChargeLevel);
+
+                GetComponent<Image>().color = _colorTabel[_chargeLevel];
+                
                 if (_level == 0)
                 {
                     _state = ActiveType.Inactive;
                     GetComponent<Image>().color = Color.white;
                 }
             }
+        }
 
-            else if (_state == ActiveType.Friendly)
+        else if (_state == ActiveType.Friendly)
+        {
+            if (chargeAmount > 0)
             {
                 _state = ActiveType.GameOver;
             }
+            
         }
 
         if (_state == ActiveType.Aggressive && Time.time - _activeTime >= 3.0f)
@@ -112,6 +139,7 @@ public class Enemy : MonoBehaviour
         _state = ActiveType.Inactive;
         _level = 0;
         GetComponent<Image>().color = Color.white;
+        _charger.Reset();
     }
 
     private void OnGUI()
