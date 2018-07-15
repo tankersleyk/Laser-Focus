@@ -103,7 +103,7 @@ public class Enemy : MonoBehaviour
 
         else if (_state == ActiveType.Friendly)
         {
-            if (chargeAmount > 0)
+            if (chargeAmount >= 0.25f)
             {
                 _state = ActiveType.GameOver;
             }
