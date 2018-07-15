@@ -15,6 +15,7 @@ public class Enemy : MonoBehaviour
     private float _activeTime;
     private int _level;
     private int _chargeLevel; // TODO: Change this var name, too confusing with _level
+    private float _elapsedTime;
 
     private static Dictionary<int, Color> _colorTabel = new Dictionary<int, Color>
     {
@@ -85,18 +86,21 @@ public class Enemy : MonoBehaviour
             {
                 _level -= 1;
 
-                // TODO: rethink this, possible to abuse?
-                // Give only what is possible for player to handle in time 
-                // 2.8 instead of 3 so that player has 0.2s at least to react
-                int maxChargeLevel = (int) System.Math.Min((2.8f - (Time.time - _activeTime)) / 0.5f, 4f); 
-                _chargeLevel = Random.Range(1, maxChargeLevel);
-
-                GetComponent<Image>().color = _colorTabel[_chargeLevel];
-                
                 if (_level == 0)
                 {
                     _state = ActiveType.Inactive;
                     GetComponent<Image>().color = Color.white;
+                }
+
+                else
+                {
+                    // TODO: rethink this, possible to abuse?
+                    // Give only what is possible for player to handle in time 
+                    // 2.8 instead of 3 so that player has 0.2s at least to react
+                    int maxChargeLevel = (int)System.Math.Min((2.8f - (Time.time - _activeTime)) / 0.5f, 4f);
+                    _chargeLevel = Random.Range(1, maxChargeLevel);
+
+                    GetComponent<Image>().color = _colorTabel[_chargeLevel];
                 }
             }
         }
@@ -107,15 +111,16 @@ public class Enemy : MonoBehaviour
             {
                 _state = ActiveType.GameOver;
             }
-            
         }
 
-        if (_state == ActiveType.Aggressive && Time.time - _activeTime >= 3.0f)
+        _elapsedTime = Time.time - _activeTime;
+
+        if (_state == ActiveType.Aggressive && _elapsedTime >= 3.0f)
         {
             _state = ActiveType.GameOver;
         }
 
-        else if (_state == ActiveType.Friendly && Time.time - _activeTime >= 1.0f)
+        else if (_state == ActiveType.Friendly && _elapsedTime >= 1.0f)
         {
             _state = ActiveType.Inactive;
             GetComponent<Image>().color = Color.white;
@@ -140,6 +145,7 @@ public class Enemy : MonoBehaviour
         _level = 0;
         GetComponent<Image>().color = Color.white;
         _charger.Reset();
+        _elapsedTime = 0;
     }
 
     private void OnGUI()
@@ -152,12 +158,34 @@ public class Enemy : MonoBehaviour
             float y = pos.y + rect.height / 4;
             float h = rect.height / 2;
             float w = rect.width / 8;
+            float x;
 
             for (int i = 1; i <= _level; ++i)
             {
-                float x = (pos.x - rect.width / 2) + rect.width * i / (_level + 1) - w/2;
-                GUI.Box(new Rect(x, Screen.height - y, w, h), GUIContent.none, _RectStyle);
+                x = (pos.x - rect.width / 2) + rect.width * i / (_level + 1) - w / 2;
+                DrawRect(x, y, w, h, Color.black);
             }
+
+            h = 20f;
+            w = (2 * rect.width) * (3.0f - _elapsedTime) / 3.0f;
+            x = pos.x - (rect.width);
+            y = pos.y - rect.height;
+            DrawRect(x, y, w, h, Color.green);
         }
+    }
+
+    /// <summary>
+    /// Draws a rectangle at the given world space with the given width and height
+    /// </summary>
+    /// <param name="x"> the global x-coordinate </param>
+    /// <param name="y"> the global y-coordinate </param>
+    /// <param name="w"> the width of the rectangle </param>
+    /// <param name="h"> the height of the rectangle </param>
+    /// <param name="color"> the desired color of the rectangle </param>
+    private void DrawRect(float x, float y, float w, float h, Color color)
+    {
+        _RectTexture.SetPixel(0, 0, color);
+        _RectTexture.Apply();
+        GUI.Box(new Rect(x, Screen.height - y, w, h), GUIContent.none, _RectStyle);
     }
 }
