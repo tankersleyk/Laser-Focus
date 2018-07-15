@@ -237,6 +237,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activateKey: 113
+  _charger: {fileID: 67049855}
 --- !u!1 &51118337
 GameObject:
   m_ObjectHideFlags: 0
@@ -247,6 +248,7 @@ GameObject:
   - component: {fileID: 51118338}
   - component: {fileID: 51118340}
   - component: {fileID: 51118339}
+  - component: {fileID: 51118341}
   m_Layer: 5
   m_Name: charger
   m_TagString: Untagged
@@ -305,6 +307,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 51118337}
+--- !u!114 &51118341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 51118337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e58e2259d2aefa4bbe0fcf3950313bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chargeKey: 108
 --- !u!1 &67049851
 GameObject:
   m_ObjectHideFlags: 0
@@ -315,6 +329,7 @@ GameObject:
   - component: {fileID: 67049852}
   - component: {fileID: 67049854}
   - component: {fileID: 67049853}
+  - component: {fileID: 67049855}
   m_Layer: 5
   m_Name: charger
   m_TagString: Untagged
@@ -373,6 +388,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 67049851}
+--- !u!114 &67049855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 67049851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e58e2259d2aefa4bbe0fcf3950313bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chargeKey: 113
 --- !u!1 &287012512
 GameObject:
   m_ObjectHideFlags: 0
@@ -497,6 +524,81 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activateKey: 108
+  _charger: {fileID: 51118341}
+--- !u!1 &379473557
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 379473558}
+  - component: {fileID: 379473559}
+  - component: {fileID: 379473560}
+  m_Layer: 5
+  m_Name: Timer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &379473558
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 379473557}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1169640899}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 297.45, y: 179.79999}
+  m_SizeDelta: {x: 311.1, y: 68.4}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &379473559
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 379473557}
+--- !u!114 &379473560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 379473557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 7cb2912222469634ba17a77055919ea8, type: 3}
+    m_FontSize: 90
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 90
+    m_Alignment: 5
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: 
 --- !u!1 &580097277
 GameObject:
   m_ObjectHideFlags: 0
@@ -588,6 +690,7 @@ GameObject:
   - component: {fileID: 708947689}
   - component: {fileID: 708947691}
   - component: {fileID: 708947690}
+  - component: {fileID: 708947692}
   m_Layer: 5
   m_Name: charger
   m_TagString: Untagged
@@ -646,6 +749,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 708947688}
+--- !u!114 &708947692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 708947688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e58e2259d2aefa4bbe0fcf3950313bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chargeKey: 97
 --- !u!1 &1142679218
 GameObject:
   m_ObjectHideFlags: 0
@@ -805,6 +920,7 @@ RectTransform:
   - {fileID: 1243121051}
   - {fileID: 287012513}
   - {fileID: 1267044735}
+  - {fileID: 379473558}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -948,6 +1064,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activateKey: 111
+  _charger: {fileID: 1612698225}
 --- !u!1 &1267044734
 GameObject:
   m_ObjectHideFlags: 0
@@ -1032,6 +1149,7 @@ GameObject:
   - component: {fileID: 1612698222}
   - component: {fileID: 1612698224}
   - component: {fileID: 1612698223}
+  - component: {fileID: 1612698225}
   m_Layer: 5
   m_Name: charger
   m_TagString: Untagged
@@ -1090,6 +1208,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1612698221}
+--- !u!114 &1612698225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1612698221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e58e2259d2aefa4bbe0fcf3950313bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chargeKey: 111
 --- !u!1 &1699227989
 GameObject:
   m_ObjectHideFlags: 0
@@ -1214,6 +1344,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activateKey: 97
+  _charger: {fileID: 708947692}
 --- !u!1 &1852621593
 GameObject:
   m_ObjectHideFlags: 0
@@ -1242,11 +1373,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameOverText: {fileID: 1267044734}
+  _timerText: {fileID: 379473560}
   _inactiveEnemies:
   - {fileID: 45189009}
-  - {fileID: 1699227994}
   - {fileID: 1243121055}
-  - {fileID: 287012517}
 --- !u!4 &1852621595
 Transform:
   m_ObjectHideFlags: 0
