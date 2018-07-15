@@ -16,6 +16,8 @@ public class Enemy : MonoBehaviour
     private int _level;
     private int _chargeLevel; // TODO: Change this var name, too confusing with _level
     private float _elapsedTime;
+    private float _gameOverTime = 3f;
+    private float _friendlyTime = 1f;
 
     private static Dictionary<int, Color> _colorTabel = new Dictionary<int, Color>
     {
@@ -115,12 +117,12 @@ public class Enemy : MonoBehaviour
 
         _elapsedTime = Time.time - _activeTime;
 
-        if (_state == ActiveType.Aggressive && _elapsedTime >= 3.0f)
+        if (_state == ActiveType.Aggressive && _elapsedTime >= _gameOverTime)
         {
             _state = ActiveType.GameOver;
         }
 
-        else if (_state == ActiveType.Friendly && _elapsedTime >= 1.0f)
+        else if (_state == ActiveType.Friendly && _elapsedTime >= _friendlyTime)
         {
             _state = ActiveType.Inactive;
             GetComponent<Image>().color = Color.white;
@@ -167,7 +169,7 @@ public class Enemy : MonoBehaviour
             }
 
             h = 20f;
-            w = (2 * rect.width) * (3.0f - _elapsedTime) / 3.0f;
+            w = _elapsedTime <= 3f ? (2 * rect.width) * (_gameOverTime - _elapsedTime) / _gameOverTime : 0;
             x = pos.x - (rect.width);
             y = pos.y - rect.height;
             DrawRect(x, y, w, h, Color.green);
