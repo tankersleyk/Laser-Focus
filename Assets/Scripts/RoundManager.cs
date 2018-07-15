@@ -6,21 +6,21 @@ using Random = UnityEngine.Random;
 
 public class RoundManager : MonoBehaviour
 {
-    private static bool roundActive;
+    private static bool roundActive = false;
     private Enemy _circle1;
     private Enemy _circle2;
     private Enemy _circle3;
     private Enemy _circle4;
-    private GameObject _gameOverText;
-
     private float _lastRandomTime;
+
+    public GameObject _gameOverText;
+
     
     public List<Enemy> _inactiveEnemies = new List<Enemy>(); // easier to randomly pull, not a big deal since not that many elements
     private List<Enemy> _activeEnemies = new List<Enemy>();
 
     private void Awake()
     {
-        _gameOverText = GameObject.Find("GameOverText");
         _gameOverText.SetActive(false);
     }
 
@@ -50,7 +50,7 @@ public class RoundManager : MonoBehaviour
         }
         else
         {
-            enemy.Activate(1);
+            enemy.Activate(Random.Range(1, 4));
             _activeEnemies.Add(enemy);
         }
 
@@ -78,7 +78,7 @@ public class RoundManager : MonoBehaviour
 
             foreach (Enemy enemy in _activeEnemies)
             {
-                ActiveType result = enemy.Update();
+                ActiveType result = enemy.HandleClick();
 
                 if (result == ActiveType.GameOver)
                 {

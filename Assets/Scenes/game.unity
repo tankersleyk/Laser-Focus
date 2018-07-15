@@ -1241,6 +1241,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a313a7ae682dbe48bf87cf3e1847d20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _gameOverText: {fileID: 1267044734}
   _inactiveEnemies:
   - {fileID: 45189009}
   - {fileID: 1699227994}
