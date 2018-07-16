@@ -68,7 +68,6 @@
     <Compile Include="Assets\Scripts\QuitOnClick.cs" />
     <Compile Include="Assets\Scripts\RoundManager.cs" />
     <None Include="Assets\Fonts\Jupiter\LICENSE.txt" />
-    <None Include="Assets\Materials\UI-Default-No-Alpha.shader" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>C:/Users/Pulse/Documents/Laser Focus/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
