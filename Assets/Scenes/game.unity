@@ -1376,7 +1376,9 @@ MonoBehaviour:
   _timerText: {fileID: 379473560}
   _inactiveEnemies:
   - {fileID: 45189009}
+  - {fileID: 1699227994}
   - {fileID: 1243121055}
+  - {fileID: 287012517}
 --- !u!4 &1852621595
 Transform:
   m_ObjectHideFlags: 0

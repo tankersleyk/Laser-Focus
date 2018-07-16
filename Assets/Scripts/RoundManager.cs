@@ -32,31 +32,36 @@ public class RoundManager : MonoBehaviour
         _lastRandomTime = Time.time + .5f; // wait a little bit at start to give some breathing room
         _startTime = Time.time;
     }
-	
+
     void RandomEnable()
     {
         if (_inactiveEnemies.Count == 0)
         {
             return;
         }
-        
+
         int randIndx = Random.Range(0, _inactiveEnemies.Count);
         Enemy enemy = (Enemy)_inactiveEnemies[randIndx];
 
-        _inactiveEnemies.RemoveAt(randIndx);
-
-        if (Random.Range(1, 10) < 2.0f)
+        if (Time.time - enemy.GetActiveTime() >= 5.0f) // Give breathing room before reactivation
         {
-            enemy.MakeFriendly();
-            _activeEnemies.Add(enemy);
-        }
-        else
-        {
-            enemy.Activate(Random.Range(1, 4));
-            _activeEnemies.Add(enemy);
+            _inactiveEnemies.RemoveAt(randIndx);
+
+            if (Random.Range(1, 10) < 2.0f)
+            {
+                enemy.MakeFriendly();
+                _activeEnemies.Add(enemy);
+            }
+            else
+            {
+                enemy.Activate(Random.Range(1, 4));
+                _activeEnemies.Add(enemy);
+            }
+
+            _lastRandomTime = Time.time;
         }
 
-        _lastRandomTime = Time.time;
+        
     }
 
 	// Update is called once per frame
@@ -105,7 +110,7 @@ public class RoundManager : MonoBehaviour
 
         else
         {
-            if (Input.GetKeyDown(KeyCode.Q))
+            if (Input.GetKeyDown(KeyCode.R))
             {
                 roundActive = true;
                 _gameOverText.SetActive(false);
@@ -128,6 +133,5 @@ public class RoundManager : MonoBehaviour
                 _startTime = Time.time;
             }
         }
-
 	}
 }

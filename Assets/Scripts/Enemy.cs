@@ -49,6 +49,7 @@ public class Enemy : MonoBehaviour
     {
         _state = ActiveType.Inactive;
         _level = 0;
+        _activeTime = -5f;
     }
 
     /// <summary>
@@ -148,6 +149,7 @@ public class Enemy : MonoBehaviour
         GetComponent<Image>().color = Color.white;
         _charger.Reset();
         _elapsedTime = 0;
+        _activeTime = -5f;
     }
 
     private void OnGUI()
