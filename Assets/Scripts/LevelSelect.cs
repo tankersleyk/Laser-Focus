@@ -13,6 +13,9 @@ public class LevelSelect : MonoBehaviour {
     private List<Vector3> _enemyLocations;
     public List<GameObject> enemyPreviews;
     public Text levelName;
+    public Text highScoreText;
+    public GameObject lockOverlay;
+    public Text lockText;
     public GameObject leftArrow;
     public GameObject rightArrow;
 
@@ -42,8 +45,12 @@ public class LevelSelect : MonoBehaviour {
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                GlobalManager.currentLevel = _selectedLevel;
-                SceneManager.LoadScene(2);
+                string highScoreKey = "highScore" + GlobalManager.Levels[_selectedLevel.LevelNumber - 1].Name;
+                if (_selectedLevel.LevelNumber < 2 || (PlayerPrefs.HasKey(highScoreKey) && PlayerPrefs.GetFloat(highScoreKey) >= 60f))
+                {
+                    GlobalManager.currentLevel = _selectedLevel;
+                    SceneManager.LoadScene(2);
+                }
             }
             return;
         }
@@ -91,6 +98,33 @@ public class LevelSelect : MonoBehaviour {
         _selectedLevel = GlobalManager.Levels[_selectIndex];
         _enemyLocations = _selectedLevel.GetEnemyLocations(_previewRect);
         levelName.text = _selectedLevel.Name;
+        levelName.color = Color.green;
+        lockText.text = "";
+
+        lockOverlay.GetComponent<Image>().color = new Color(0, 0, 0, 0);
+
+
+        if (PlayerPrefs.HasKey("highScore" + _selectedLevel.Name))
+        {
+            highScoreText.text = "Best Time: " + PlayerPrefs.GetFloat("highScore" + _selectedLevel.Name).ToString("0.00s");
+        }
+
+        else
+        {
+            highScoreText.text = "Best Time: 0.00s";
+        }
+
+        if (_selectedLevel.LevelNumber >= 2)
+        {
+
+            string prevLevel = "highScore" + GlobalManager.Levels[_selectedLevel.LevelNumber - 1].Name;
+            if (!PlayerPrefs.HasKey(prevLevel) || PlayerPrefs.GetFloat(prevLevel)  < 60f)
+            {
+                lockOverlay.GetComponent<Image>().color = new Color(0, 0, 0, .9f);
+                levelName.color = Color.red;
+                lockText.text = "Survive for 60s or more in \"" + prevLevel.Substring("highScore".Length) +  "\"";
+            }
+        }
 
         for (int i = 0; i < _enemyLocations.Count; i++)
         {

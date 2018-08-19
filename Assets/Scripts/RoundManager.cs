@@ -1,6 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -26,6 +26,8 @@ public class RoundManager : MonoBehaviour
     public List<GameObject> potentialEnemies = new List<GameObject>();
     private List<Enemy> _inactiveEnemies = new List<Enemy>(); // easier to randomly pull, not a big deal since not that many elements
     private List<Enemy> _activeEnemies = new List<Enemy>();
+
+    private float _time;
 
     private void Awake()
     {
@@ -115,6 +117,11 @@ public class RoundManager : MonoBehaviour
                 {
                     roundActive = false;
                     _gameOverText.SetActive(true);
+                    string highscoreKey = "highScore" + GlobalManager.currentLevel.Name;
+                    if (!PlayerPrefs.HasKey(highscoreKey) || PlayerPrefs.GetFloat(highscoreKey) < _time)
+                    {
+                        PlayerPrefs.SetFloat(highscoreKey, _time);
+                    }
                 }
 
                 else if (result == ActiveType.Inactive)
@@ -129,8 +136,9 @@ public class RoundManager : MonoBehaviour
                 _inactiveEnemies.Add(enemy);
             }
 
-            string time = (Time.time - _startTime).ToString("#.00", CultureInfo.InvariantCulture) + "s";
-            _timerText.text = time.Substring(0, time.IndexOf(".")) + "." + "<size=45>" + time.Substring(time.IndexOf(".")) + "</size>";
+
+            _time = (Time.time - _startTime);
+            _timerText.text = _time.ToString("0.<size=45>00</size>");
         }
 
         else
