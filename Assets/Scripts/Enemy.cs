@@ -15,8 +15,9 @@ public class Enemy : MonoBehaviour
     private float _activeTime;
     private int _level;
     private int _chargeLevel; // TODO: Change this var name, too confusing with _level
+    private int _maxChargeLevel;
     private float _elapsedTime;
-    private float _gameOverTime = 3f;
+    private float _gameOverTime;
     private float _friendlyTime = 1f;
 
     private static Dictionary<int, Color> _colorTabel = new Dictionary<int, Color>
@@ -48,6 +49,8 @@ public class Enemy : MonoBehaviour
     private void Start()
     {
         _state = ActiveType.Inactive;
+        _gameOverTime = GlobalManager.levelDefinitions[GlobalManager.currentLevel].lifeTime;
+        _maxChargeLevel = GlobalManager.levelDefinitions[GlobalManager.currentLevel].maxChargeLevel;
         _level = 0;
         _activeTime = -5f;
     }
@@ -61,7 +64,7 @@ public class Enemy : MonoBehaviour
         _state = ActiveType.Aggressive;
         _activeTime = Time.time;
         _level = level;
-        _chargeLevel = Random.Range(1, 4);
+        _chargeLevel = Random.Range(1, _maxChargeLevel);
         GetComponent<Image>().color = _colorTabel[_chargeLevel];
     }
 
@@ -99,8 +102,8 @@ public class Enemy : MonoBehaviour
                 {
                     // TODO: rethink this, possible to abuse?
                     // Give only what is possible for player to handle in time 
-                    // 2.8 instead of 3 so that player has 0.2s at least to react
-                    int maxChargeLevel = (int)System.Math.Min((2.8f - (Time.time - _activeTime)) / 0.5f, 4f);
+                    // 2.5 instead of 3 so that player has 0.5s at least to react
+                    int maxChargeLevel = (int)System.Math.Min((2.5f - (Time.time - _activeTime)) / 0.5f, 4f);
                     _chargeLevel = Random.Range(1, maxChargeLevel);
 
                     GetComponent<Image>().color = _colorTabel[_chargeLevel];
@@ -171,7 +174,7 @@ public class Enemy : MonoBehaviour
             }
 
             h = 20f;
-            w = _elapsedTime <= 3f ? (2 * rect.width) * (_gameOverTime - _elapsedTime) / _gameOverTime : 0;
+            w = _elapsedTime <= _gameOverTime ? (2 * rect.width) * (_gameOverTime - _elapsedTime) / _gameOverTime : 0;
             x = pos.x - (rect.width);
             y = pos.y - rect.height;
             DrawRect(x, y, w, h, Color.green);

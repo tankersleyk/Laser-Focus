@@ -64,7 +64,9 @@
     <Compile Include="Assets\Scripts\ChangeScenesOnClick.cs" />
     <Compile Include="Assets\Scripts\Charger.cs" />
     <Compile Include="Assets\Scripts\Enemy.cs" />
+    <Compile Include="Assets\Scripts\GlobalManager.cs" />
     <Compile Include="Assets\Scripts\Level.cs" />
+    <Compile Include="Assets\Scripts\LevelInfo.cs" />
     <Compile Include="Assets\Scripts\LevelSelect.cs" />
     <Compile Include="Assets\Scripts\MenuEffects.cs" />
     <Compile Include="Assets\Scripts\QuitOnClick.cs" />

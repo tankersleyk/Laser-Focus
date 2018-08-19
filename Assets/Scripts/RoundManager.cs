@@ -13,11 +13,16 @@ public class RoundManager : MonoBehaviour
     private Enemy _circle4;
     private float _lastRandomTime;
     private float _startTime;
+    
+    private LevelInfo _info;
 
+    public GameObject _enemyLocationsBox;
+    private Rect _enemyRect;
     public GameObject _gameOverText;
     public Text _timerText;
-    
-    public List<Enemy> _inactiveEnemies = new List<Enemy>(); // easier to randomly pull, not a big deal since not that many elements
+
+    public List<GameObject> potentialEnemies = new List<GameObject>();
+    private List<Enemy> _inactiveEnemies = new List<Enemy>(); // easier to randomly pull, not a big deal since not that many elements
     private List<Enemy> _activeEnemies = new List<Enemy>();
 
     private void Awake()
@@ -28,9 +33,27 @@ public class RoundManager : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
+
         roundActive = true;
         _lastRandomTime = Time.time + .5f; // wait a little bit at start to give some breathing room
         _startTime = Time.time;
+        _info = GlobalManager.levelDefinitions[GlobalManager.currentLevel];
+
+        RectTransform locationTransform = _enemyLocationsBox.GetComponent<RectTransform>();
+
+        _enemyRect = new Rect(locationTransform.position.x, locationTransform.position.y, locationTransform.rect.width, locationTransform.rect.height);
+
+        List<Vector3> enemyLocations = GlobalManager.currentLevel.GetEnemyLocations(_enemyRect);
+        Debug.Log(enemyLocations.Count);
+
+        for (int i = 0; i < enemyLocations.Count; i++)
+        {
+            Vector3 pos = enemyLocations[i];
+            GameObject enemy = potentialEnemies[i];
+            enemy.transform.localPosition = pos;
+            enemy.SetActive(true);
+            _inactiveEnemies.Add(enemy.GetComponent<Enemy>());
+        }
     }
 
     void RandomEnable()
@@ -54,7 +77,7 @@ public class RoundManager : MonoBehaviour
             }
             else
             {
-                enemy.Activate(Random.Range(1, 4));
+                enemy.Activate(Random.Range(1, _info.maxLevel));
                 _activeEnemies.Add(enemy);
             }
 

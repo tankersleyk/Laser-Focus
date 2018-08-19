@@ -8,9 +8,9 @@ public class LevelSelect : MonoBehaviour {
 
     private int _selectIndex;
     private Level _selectedLevel;
-    private List<Level> _levelPreviews = new List<Level>();
     public GameObject previewBox;
     private Rect _previewRect;
+    private List<Vector3> _enemyLocations;
     public List<GameObject> enemyPreviews;
     public Text levelName;
     public GameObject leftArrow;
@@ -20,14 +20,10 @@ public class LevelSelect : MonoBehaviour {
 	void Start () {
         RectTransform previewTransform = previewBox.GetComponent<RectTransform>();
         _previewRect = new Rect(previewTransform.position.x, previewTransform.position.y, previewTransform.rect.width, previewTransform.rect.height);
-        _levelPreviews.Add(new Level("Get Acclimated", 1, _previewRect));
-        _levelPreviews.Add(new Level("Simple", 2, _previewRect));
-        _levelPreviews.Add(new Level("Tricky", 3, _previewRect));
-        _levelPreviews.Add(new Level("The Wall", 4, _previewRect));
-        _levelPreviews.Add(new Level("Actually Difficult", 5, _previewRect));
-        _levelPreviews.Add(new Level("Good luck", 6, _previewRect));
-        _levelPreviews.Add(new Level("Impossible", 7, _previewRect));
-        _selectIndex = 1;
+        _selectedLevel = GlobalManager.currentLevel;
+        _selectIndex = _selectedLevel.LevelNumber;
+        _enemyLocations = _selectedLevel.GetEnemyLocations(_previewRect);
+
         UpdateSelectedLevel();
     }
 
@@ -46,12 +42,13 @@ public class LevelSelect : MonoBehaviour {
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                GlobalManager.currentLevel = _selectedLevel;
                 SceneManager.LoadScene(2);
             }
             return;
         }
         
-        for (int i = 0; i < _selectedLevel.EnemyLocations.Count; i++)
+        for (int i = 0; i < _enemyLocations.Count; i++)
         {
             enemyPreviews[i].SetActive(false);
         }
@@ -76,14 +73,14 @@ public class LevelSelect : MonoBehaviour {
 
     public void DisplayRight()
     {
-        if (_selectIndex < _levelPreviews.Count - 2)
+        if (_selectIndex < GlobalManager.Levels.Count - 2)
         {
             _selectIndex += 1;
             rightArrow.GetComponent<Image>().color = Color.white;
         }
         else
         {
-            _selectIndex = _levelPreviews.Count - 1;
+            _selectIndex = GlobalManager.Levels.Count - 1;
             rightArrow.GetComponent<Image>().color = Color.gray;
         }
         leftArrow.GetComponent<Image>().color = Color.white;
@@ -91,12 +88,13 @@ public class LevelSelect : MonoBehaviour {
 
     void UpdateSelectedLevel()
     {
-        _selectedLevel = _levelPreviews[_selectIndex];
+        _selectedLevel = GlobalManager.Levels[_selectIndex];
+        _enemyLocations = _selectedLevel.GetEnemyLocations(_previewRect);
         levelName.text = _selectedLevel.Name;
 
-        for (int i = 0; i < _selectedLevel.EnemyLocations.Count; i++)
+        for (int i = 0; i < _enemyLocations.Count; i++)
         {
-            Vector3 pos = _selectedLevel.EnemyLocations[i];
+            Vector3 pos = _enemyLocations[i];
             enemyPreviews[i].transform.localPosition = pos;
             enemyPreviews[i].SetActive(true);
         }
