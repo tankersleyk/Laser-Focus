@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -44,7 +45,6 @@ public class RoundManager : MonoBehaviour
         _enemyRect = new Rect(locationTransform.position.x, locationTransform.position.y, locationTransform.rect.width, locationTransform.rect.height);
 
         List<Vector3> enemyLocations = GlobalManager.currentLevel.GetEnemyLocations(_enemyRect);
-        Debug.Log(enemyLocations.Count);
 
         for (int i = 0; i < enemyLocations.Count; i++)
         {
@@ -154,6 +154,11 @@ public class RoundManager : MonoBehaviour
 
                 _lastRandomTime = Time.time + 0.5f;
                 _startTime = Time.time;
+            }
+
+            else if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                SceneManager.LoadScene(1);
             }
         }
 	}
