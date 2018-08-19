@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -128,7 +129,8 @@ public class RoundManager : MonoBehaviour
                 _inactiveEnemies.Add(enemy);
             }
 
-            _timerText.text = (int) (Time.time - _startTime) + "s";
+            string time = (Time.time - _startTime).ToString("#.00", CultureInfo.InvariantCulture) + "s";
+            _timerText.text = time.Substring(0, time.IndexOf(".")) + "." + "<size=45>" + time.Substring(time.IndexOf(".")) + "</size>";
         }
 
         else
